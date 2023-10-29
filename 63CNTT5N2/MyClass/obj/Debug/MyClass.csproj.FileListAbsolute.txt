@@ -1,0 +1,24 @@
+D:\TH WEB\PTUDW\63CNTT5N2\MyClass\bin\Debug\MyClass.dll.config
+D:\TH WEB\PTUDW\63CNTT5N2\MyClass\bin\Debug\MyClass.dll
+D:\TH WEB\PTUDW\63CNTT5N2\MyClass\bin\Debug\MyClass.pdb
+D:\TH WEB\PTUDW\63CNTT5N2\MyClass\bin\Debug\EntityFramework.dll
+D:\TH WEB\PTUDW\63CNTT5N2\MyClass\bin\Debug\EntityFramework.SqlServer.dll
+D:\TH WEB\PTUDW\63CNTT5N2\MyClass\bin\Debug\EntityFramework.xml
+D:\TH WEB\PTUDW\63CNTT5N2\MyClass\bin\Debug\EntityFramework.SqlServer.xml
+D:\TH WEB\PTUDW\63CNTT5N2\MyClass\obj\Debug\MyClass.csproj.AssemblyReference.cache
+D:\TH WEB\PTUDW\63CNTT5N2\MyClass\obj\Debug\MyClass.csproj.CoreCompileInputs.cache
+D:\TH WEB\PTUDW\63CNTT5N2\MyClass\obj\Debug\MyClass.csproj.CopyComplete
+D:\TH WEB\PTUDW\63CNTT5N2\MyClass\obj\Debug\MyClass.dll
+D:\TH WEB\PTUDW\63CNTT5N2\MyClass\obj\Debug\MyClass.pdb
+G:\PTUDW\63CNTT5N2\MyClass\bin\Debug\MyClass.dll.config
+G:\PTUDW\63CNTT5N2\MyClass\bin\Debug\MyClass.dll
+G:\PTUDW\63CNTT5N2\MyClass\bin\Debug\MyClass.pdb
+G:\PTUDW\63CNTT5N2\MyClass\bin\Debug\EntityFramework.dll
+G:\PTUDW\63CNTT5N2\MyClass\bin\Debug\EntityFramework.SqlServer.dll
+G:\PTUDW\63CNTT5N2\MyClass\bin\Debug\EntityFramework.xml
+G:\PTUDW\63CNTT5N2\MyClass\bin\Debug\EntityFramework.SqlServer.xml
+G:\PTUDW\63CNTT5N2\MyClass\obj\Debug\MyClass.csproj.AssemblyReference.cache
+G:\PTUDW\63CNTT5N2\MyClass\obj\Debug\MyClass.csproj.CoreCompileInputs.cache
+G:\PTUDW\63CNTT5N2\MyClass\obj\Debug\MyClass.csproj.CopyComplete
+G:\PTUDW\63CNTT5N2\MyClass\obj\Debug\MyClass.dll
+G:\PTUDW\63CNTT5N2\MyClass\obj\Debug\MyClass.pdb
