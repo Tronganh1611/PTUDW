@@ -170,6 +170,8 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
                 TempData["message"] = new XMessage("success", "Cập nhật sản phẩm thành công");
                 return RedirectToAction("Index");
             }
+            ViewBag.ListCatID = new SelectList(categoriesDAO.getList("Index"), "Id", "Name");//categories
+            ViewBag.ListSupID = new SelectList(suppliersDAO.getList("Index"), "Id", "Name");//suppliers
             return View(products);
         }
 
@@ -247,7 +249,7 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
 
         ////////////////////////////////////////////////////////////////////
         // GET: Admin/Product/DelTrash/5
-        public ActionResult DelTrash(int? id)
+        public ActionResult MoveTrash(int? id)
         {
             if (id == null)
             {
@@ -285,7 +287,7 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
 
         ////////////////////////////////////////////////////////////////////
         // GET: Admin/Product/Undo/5
-        public ActionResult Undo(int? id)
+        public ActionResult Recover(int? id)
         {
             if (id == null)
             {

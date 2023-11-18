@@ -29,8 +29,6 @@ namespace MyClass.Model
         [Display(Name = "Tên rút gọn")]
         public string Slug { get; set; }
 
-        [Required]
-        public string Detail { get; set; }
         [Display(Name = "Hình ảnh")]
 
         public string Image { get; set; }
