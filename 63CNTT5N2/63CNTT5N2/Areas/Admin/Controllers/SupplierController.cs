@@ -30,17 +30,18 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
             if (id == null)
             {
                 //thong bao that bai
-                TempData["message"] = new XMessage("danger", "Cập nhật mẩu tin thất bại");
+                TempData["message"] = new XMessage("danger", "Không tìm thấy mẫu tin");
             }
-            Suppliers suppliers = suppliersDAO.getRow(id);
+            Suppliers suppliers = suppliersDAO.getRow(id);//hiên thi 1 mau tin
             if (suppliers == null)
             {//thong bao that bai
-                TempData["message"] = new XMessage("danger", "Cập nhật mẩu tin thất bại");
+                TempData["message"] = new XMessage("danger", "Không tìm thấy mẫu tin");
 
             }
             return View(suppliers);
         }
 
+        ///////////////////////////////////////////////////////////////////
         // GET: Admin/Supplier/Create
         public ActionResult Create()
         {
@@ -48,15 +49,16 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: Admin/Supplier/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Image,Slug,Order,FullName,Phone,Email,URL,MetaDesc,MetaKey,CreatedBy,CreatedAt,UpdateBy,UpdateAt,Status")] Suppliers suppliers)
+        public ActionResult Create(Suppliers suppliers)
         {
             if (ModelState.IsValid)
             {
+                //xu ly tu dong cho cac truong: CreateAt/By, UpdateAt/By, Slug, OrderBy
+                //Xu ly tu dong cho: CreateAt
+                suppliers.CreatedAt = DateTime.Now;
+
                 //Xu ly tu dong cho: UpdateAt
                 suppliers.UpdateAt = DateTime.Now;
 
@@ -72,7 +74,8 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
 
                 //Xu ly tu dong cho: Slug
                 suppliers.Slug = XString.Str_Slug(suppliers.Name);
-                //xu ly cho phan upload hình ảnh
+
+                //xu ly cho phan upload hinh anh
                 var img = Request.Files["img"];//lay thong tin file
                 if (img.ContentLength != 0)
                 {
@@ -83,7 +86,7 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
                         string slug = suppliers.Slug;
                         //ten file = Slug + phan mo rong cua tap tin
                         string imgName = slug + img.FileName.Substring(img.FileName.LastIndexOf("."));
-                        suppliers.Image = imgName;
+                        suppliers.Image = imgName;//abc-def-1.jpg
                         //upload hinh
                         string PathDir = "~/Public/img/supplier/";
                         string PathFile = Path.Combine(Server.MapPath(PathDir), imgName);
@@ -91,73 +94,89 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
                     }
                 }//ket thuc phan upload hinh anh
 
-                suppliersDAO.Insert(suppliers)
-;               //thong bao thanh cong
-                TempData["message"] = new XMessage("success", "Cập nhật mẩu tin thành công");
+                //them mau tin vao DB
+                suppliersDAO.Insert(suppliers);
+                //thong bao thanh cong
+                TempData["message"] = new XMessage("success", "Thêm mẩu tin thành công");
                 return RedirectToAction("Index");
             }
             ViewBag.ListOrder = new SelectList(suppliersDAO.getList("Index"), "Order", "Name");
             return View(suppliers);
         }
 
+
+        ///////////////////////////////////////////////////////////////////
         // GET: Admin/Supplier/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 //thong bao that bai
-                TempData["message"] = new XMessage("danger", "Cập nhật mẩu tin thất bại");
+                TempData["message"] = new XMessage("danger", "Không tìm thấy mẩu tin");
             }
-            Suppliers suppliers = suppliersDAO.getRow(id);
+            Suppliers suppliers = suppliersDAO.getRow(id);//tra ve 1 mau tin
             if (suppliers == null)
             {
                 //thong bao that bai
-                TempData["message"] = new XMessage("danger", "Cập nhật mẩu tin thất bại");
+                TempData["message"] = new XMessage("danger", "Không tìm thấy mẩu tin");
             }
-            //Xu li tu dong cho Slug
-            suppliers.Slug = XString.Str_Slug(suppliers.Name);
-            //trc khi cap nhat lai an moi thi xoa anh cu
-            var img = Request.Files["img"];//lay thong tin file
-            string PathDir = "~/Public/img/supplier/";
-            if (img.ContentLength != 0 && suppliers.Image != null)
-            {
-                //xoa anh cu
-                string DelPath = Path.Combine(Server.MapPath(PathDir), suppliers.Image);
-                System.IO.File.Delete(DelPath);
-
-            }
-
-            //xu ly cho phan upload hình ảnh
-            if (img.ContentLength != 0)
-            {
-                string[] FileExtentions = new string[] { ".jpg", ".jpeg", ".png", ".gif" };
-                //kiem tra tap tin co hay khong
-                if (FileExtentions.Contains(img.FileName.Substring(img.FileName.LastIndexOf("."))))//lay phan mo rong cua tap tin
-                {
-                    string slug = suppliers.Slug;
-                    //ten file = Slug + phan mo rong cua tap tin
-                    string imgName = slug + img.FileName.Substring(img.FileName.LastIndexOf("."));
-                    suppliers.Image = imgName;
-                    //upload hinh
-                    
-                    string PathFile = Path.Combine(Server.MapPath(PathDir), imgName);
-                    img.SaveAs(PathFile);
-                }
-            }//ket thuc phan upload hinh anh
-
+            ViewBag.ListOrder = new SelectList(suppliersDAO.getList("Index"), "Order", "Name");
             return View(suppliers);
         }
 
-        // POST: Admin/Supplier/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Image,Slug,Order,FullName,Phone,Email,URL,MetaDesc,MetaKey,CreatedBy,CreatedAt,UpdateBy,UpdateAt,Status")] Suppliers suppliers)
+        public ActionResult Edit(Suppliers suppliers)
         {
             if (ModelState.IsValid)
             {
-                //cap nhat mau tin tu dtb
+                //xu ly tu dong cho cac truong: CreateAt/By, UpdateAt/By, Slug, OrderBy
+
+                //Xu ly tu dong cho: UpdateAt
+                suppliers.UpdateAt = DateTime.Now;
+
+                //Xu ly tu dong cho: Order
+                if (suppliers.Order == null)
+                {
+                    suppliers.Order = 1;
+                }
+                else
+                {
+                    suppliers.Order += 1;
+                }
+
+                //Xu ly tu dong cho: Slug
+                suppliers.Slug = XString.Str_Slug(suppliers.Name);
+
+                //truoc khi cap nhat lai anh moi thi xoa anh cu
+                var img = Request.Files["img"];//lay thong tin file
+                string PathDir = "~/Public/img/supplier/";
+                if (img.ContentLength != 0 && suppliers.Image != null)//ton tai mot logo cua NCC tu truoc
+                {
+                    //xoa anh cu
+                    string DelPath = Path.Combine(Server.MapPath(PathDir), suppliers.Image);
+                    System.IO.File.Delete(DelPath);
+                }
+                //upload anh moi cua NCC
+                //xu ly cho phan upload hinh anh
+
+                if (img.ContentLength != 0)
+                {
+                    string[] FileExtentions = new string[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    //kiem tra tap tin co hay khong
+                    if (FileExtentions.Contains(img.FileName.Substring(img.FileName.LastIndexOf("."))))//lay phan mo rong cua tap tin
+                    {
+                        string slug = suppliers.Slug;
+                        //ten file = Slug + phan mo rong cua tap tin
+                        string imgName = slug + img.FileName.Substring(img.FileName.LastIndexOf("."));
+                        suppliers.Image = imgName;//abc-def-1.jpg
+                        //upload hinh
+                        string PathFile = Path.Combine(Server.MapPath(PathDir), imgName);
+                        img.SaveAs(PathFile);
+                    }
+                }//ket thuc phan upload hinh anh
+
+                //cap nhat mau tin vao DB
                 suppliersDAO.Update(suppliers);
                 //thong bao thanh cong
                 TempData["message"] = new XMessage("success", "Cập nhật mẩu tin thành công");
@@ -166,39 +185,22 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
             return View(suppliers);
         }
 
+        ///////////////////////////////////////////////////////////////////
         // GET: Admin/Supplier/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
-                //thong bao that bai
-                TempData["message"] = new XMessage("danger", "Cập nhật mẩu tin thất bại");
+                //hien thi thong bao
+                TempData["message"] = new XMessage("danger", "Không tìm thấy nhà cung cấp");
+                return RedirectToAction("Index");
             }
             Suppliers suppliers = suppliersDAO.getRow(id);
-            //xoa hinh anh
-            //xu ly cho phan upload hình ảnh
-            var img = Request.Files["img"];//lay thong tin file
-            if (img.ContentLength != 0)
-            {
-                string[] FileExtentions = new string[] { ".jpg", ".jpeg", ".png", ".gif" };
-                //kiem tra tap tin co hay khong
-                if (FileExtentions.Contains(img.FileName.Substring(img.FileName.LastIndexOf("."))))//lay phan mo rong cua tap tin
-                {
-                    string slug = suppliers.Slug;
-                    //ten file = Slug + phan mo rong cua tap tin
-                    string imgName = slug + img.FileName.Substring(img.FileName.LastIndexOf("."));
-                    suppliers.Image = imgName;
-                    //upload hinh
-                    string PathDir = "~/Public/img/supplier/";
-                    string PathFile = Path.Combine(Server.MapPath(PathDir), imgName);
-                    img.SaveAs(PathFile);
-                }
-            }//ket thuc phan upload hinh anh
-
             if (suppliers == null)
             {
-                //thong bao that bai
-                TempData["message"] = new XMessage("danger", "Cập nhật mẩu tin thất bại");
+                //hien thi thong bao
+                TempData["message"] = new XMessage("danger", "Không tìm thấy nhà cung cấp");
+                return RedirectToAction("Index");
             }
             return View(suppliers);
         }
@@ -209,9 +211,20 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Suppliers suppliers = suppliersDAO.getRow(id);
-            //thong bao thanh cong
-            TempData["message"] = new XMessage("success", "Cập nhật mẩu tin thành công");
-            return RedirectToAction("Index");
+            //tim va xoa anh cua NCC
+            if (suppliersDAO.Detele(suppliers) == 1)
+            {
+                string PathDir = "~/Public/img/supplier/";
+                if (suppliers.Image != null)//ton tai mot logo cua NCC tu truoc
+                {
+                    //xoa anh cu
+                    string DelPath = Path.Combine(Server.MapPath(PathDir), suppliers.Image);
+                    System.IO.File.Delete(DelPath);
+                }
+            }
+            //hien thi thong bao thanh cong
+            TempData["message"] = new XMessage("success", "Xóa nhà cung cấp thành công");
+            return RedirectToAction("Trash");
         }
 
         ///////////////////////////////////////////////////////////////////
@@ -316,7 +329,7 @@ namespace _63CNTT5N2.Areas.Admin.Controllers
             //thong bao thanh cong
             TempData["message"] = new XMessage("success", "Phục hồi mẩu tin thành công");
             //tra ket qua ve Index
-            return RedirectToAction("Trash");//action trong Category
+            return RedirectToAction("Trash");//action trong SuplierDAO
         }
     }
 }
